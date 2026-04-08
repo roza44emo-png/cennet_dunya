@@ -1,0 +1,23 @@
+[05-Feb-2026 14:50:58 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:04 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:14 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:16 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:26 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:29 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:31 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:51:32 Europe/Berlin] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in C:\xampp\htdocs\cennet_dunya\api.php on line 177
+[05-Feb-2026 14:53:46 Europe/Berlin] JSON Decode Error: Syntax error
+[05-Feb-2026 14:53:46 Europe/Berlin] Raw Content: ```json
+{
+  "parcalanmis_tweet": [
+    "obüsler",
+    "sussun",
+    "bakalım",
+    "çekilme",
+    "işaretini",
+    "vermiş",
+    "oluruz",
+    "samet"
+  ],
+  "yorumlar": {
+    "ana_tweet_analizi"

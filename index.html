@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cennet_dunya (@cennet_dunya)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Custom Scrollbar to match dark theme */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333; 
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 640px) {
+            body {
+                padding-bottom: 60px; /* Space for bottom nav */
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white">
+
+    <!-- Layout Container -->
+    <div class="max-w-[1280px] mx-auto flex">
+
+        <!-- Left Sidebar (Navigation) -->
+        <aside class="hidden sm:flex w-[88px] xl:w-[275px] h-screen sticky top-0 flex-col justify-between p-2 xl:p-4 border-r border-gray-800 overflow-y-auto">
+            <div>
+                <!-- Logo -->
+                <div class="w-12 h-12 rounded-full flex items-center justify-center mb-4 xl:mb-8 hover:bg-gray-900 transition-colors cursor-pointer mx-auto xl:mx-0">
+                    <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </div>
+
+                <!-- Nav Items -->
+                <nav class="space-y-2 flex flex-col items-center xl:items-start">
+                    <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-full hover:bg-gray-900 transition-colors">
+                        <i class="fa-solid fa-house text-[26px]"></i>
+                        <span class="text-xl hidden xl:block">Anasayfa</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-full hover:bg-gray-900 transition-colors">
+                        <i class="fa-solid fa-magnifying-glass text-[26px]"></i>
+                        <span class="text-xl hidden xl:block">Keşfet</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-full hover:bg-gray-900 transition-colors">
+                        <i class="fa-regular fa-bell text-[26px]"></i>
+                        <span class="text-xl hidden xl:block">Bildirimler</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-full hover:bg-gray-900 transition-colors">
+                        <i class="fa-regular fa-envelope text-[26px]"></i>
+                        <span class="text-xl hidden xl:block">Mesajlar</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-full hover:bg-gray-900 transition-colors">
+                        <i class="fa-regular fa-bookmark text-[26px]"></i>
+                        <span class="text-xl hidden xl:block">Yer İmleri</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-full hover:bg-gray-900 transition-colors">
+                        <i class="fa-solid fa-users text-[26px]"></i>
+                        <span class="text-xl hidden xl:block">Topluluklar</span>
+                    </a>
+                </nav>
+
+                <button class="w-12 h-12 xl:w-full bg-white text-black hover:bg-gray-200 font-bold py-3 rounded-full mt-4 transition-colors flex items-center justify-center mx-auto xl:mx-0">
+                    <span class="hidden xl:block">Gönder</span>
+                    <i class="fa-solid fa-feather-pointed xl:hidden text-xl"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Feed (Center) -->
+        <main class="flex-1 border-r border-gray-800 max-w-[600px] w-full relative">
+            
+            <!-- Feed View -->
+            <div id="feed-view">
+                <!-- Sticky Header -->
+                <div class="sticky top-0 backdrop-blur-md bg-black/80 z-10 border-b border-gray-800">
+                    <div class="px-4 py-2 flex items-center gap-4">
+                        <div class="p-2 rounded-full hover:bg-gray-900 cursor-pointer transition-colors sm:hidden">
+                             <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold" id="header-name">Yükleniyor...</h1>
+                            <p class="text-sm text-gray-500" id="tweet-count">0 gönderi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <div class="relative">
+                    <!-- Banner -->
+                    <div class="h-[200px] bg-gray-800">
+                        <img id="banner-image" src="" alt="Banner" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="px-4">
+                        <!-- Avatar & Edit Button -->
+                        <div class="flex justify-between items-start -mt-16 mb-4">
+                            <div class="w-32 h-32 rounded-full border-4 border-black overflow-hidden bg-transparent">
+                                 <img id="profile-avatar" src="" alt="Profile" class="w-full h-full object-cover">
+                            </div>
+                            <div class="mt-16 flex gap-3">
+                                 <button class="w-9 h-9 border border-gray-600 rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                 </button>
+                                 <button class="w-9 h-9 border border-gray-600 rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors">
+                                    <i class="fa-regular fa-bell"></i>
+                                 </button>
+                                 <button class="px-6 py-2 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-colors">
+                                    Takip et
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="mb-4">
+                            <div class="flex items-center gap-1 mb-1">
+                                <h2 class="text-xl font-bold" id="profile-name">...</h2>
+                            </div>
+                            <p class="text-gray-500 mb-3" id="profile-handle">@...</p>
+                            <p class="mb-3 whitespace-pre-wrap" id="profile-bio">...</p>
+
+                            <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span id="profile-location">...</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-link"></i>
+                                    <a href="#" class="text-blue-500 hover:underline" id="profile-website">...</a>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    <span id="profile-join-date">...</span>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4 text-sm">
+                                <div class="hover:underline cursor-pointer">
+                                    <span class="font-semibold text-white" id="following-count">0</span>
+                                    <span class="text-gray-500 ml-1">Takip edilen</span>
+                                </div>
+                                <div class="hover:underline cursor-pointer">
+                                    <span class="font-semibold text-white" id="followers-count">0</span>
+                                    <span class="text-gray-500 ml-1">Takipçi</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabs -->
+                        <div class="border-b border-gray-800">
+                            <div class="flex">
+                                <div class="flex-1 text-center py-4 cursor-pointer hover:bg-gray-900 transition-colors relative font-semibold">
+                                    Gönderiler
+                                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 rounded-full mx-auto w-1/2"></div>
+                                </div>
+                                <div class="flex-1 text-center py-4 cursor-pointer hover:bg-gray-900 transition-colors text-gray-500">
+                                    Yanıtlar
+                                </div>
+                                <div class="flex-1 text-center py-4 cursor-pointer hover:bg-gray-900 transition-colors text-gray-500">
+                                    Medya
+                                </div>
+                                <div class="flex-1 text-center py-4 cursor-pointer hover:bg-gray-900 transition-colors text-gray-500">
+                                    Beğeniler
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feed -->
+                <div id="feed" class="pb-64">
+                     <!-- Loading Spinner -->
+                     <div class="flex justify-center p-8">
+                        <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail View (Hidden) -->
+            <div id="detail-view" class="hidden min-h-screen pb-64">
+                <!-- Detail Header -->
+                <div class="sticky top-0 backdrop-blur-md bg-black/80 z-10 border-b border-gray-800">
+                    <div class="px-4 py-2 flex items-center gap-6 h-[53px]">
+                        <button onclick="closeTweetDetail()" class="w-9 h-9 rounded-full hover:bg-gray-900 flex items-center justify-center transition-colors">
+                             <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <h2 class="text-xl font-bold">Gönderi</h2>
+                    </div>
+                </div>
+
+                <!-- Tweet Content -->
+                <div id="detail-tweet-content"></div>
+
+                <!-- Comment Form Section -->
+                <div class="border-t border-gray-800 p-4">
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-user text-gray-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-gray-500 text-sm mb-2">
+                                <span class="text-blue-500">@cennet_dunya</span> adlı kullanıcıya yanıt olarak
+                            </div>
+                            <input type="text" id="detail-comment-username" placeholder="Adınız (İsteğe bağlı)" class="w-full bg-transparent text-white mb-2 outline-none text-sm font-bold placeholder-gray-600">
+                            <textarea id="detail-comment-text" rows="3" placeholder="Yanıtını gönder" class="w-full bg-transparent text-white text-lg outline-none resize-none placeholder-gray-600"></textarea>
+                            <div class="flex justify-end mt-2">
+                                <button onclick="submitDetailComment()" class="px-4 py-2 bg-blue-500 text-white rounded-full font-bold hover:bg-blue-600 transition-colors disabled:opacity-50" id="detail-submit-comment-btn" disabled>
+                                    Yanıtla
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments List -->
+                <div id="detail-comments-list"></div>
+            </div>
+
+        </main>
+
+        <!-- Right Sidebar (Search & Suggestions) -->
+        <aside class="w-[350px] p-4 hidden lg:block sticky top-0 h-screen overflow-y-auto">
+            <div class="space-y-4">
+                <!-- Search -->
+                <div class="relative group">
+                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 group-focus-within:text-blue-500">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Mesajlarda ara" class="w-full bg-gray-900 border border-transparent focus:border-blue-500 focus:bg-black rounded-full py-3 pl-12 pr-4 text-white placeholder-gray-500 outline-none transition-colors">
+                </div>
+
+                <!-- Footer -->
+                <div class="text-xs text-gray-500 flex flex-wrap gap-2">
+                    <a href="#" class="hover:underline">Hizmet Şartları</a>
+                    <a href="#" class="hover:underline">Gizlilik Politikası</a>
+                    <a href="#" class="hover:underline">Çerez Politikası</a>
+                    <a href="#" class="hover:underline">Erişilebilirlik</a>
+                    <a href="#" class="hover:underline">Reklam Bilgisi</a>
+                    <span>© 2026 X Corp.</span>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="comment-modal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-black border border-gray-800 rounded-2xl w-full max-w-lg overflow-hidden">
+            <div class="p-4 border-b border-gray-800 flex justify-between items-center">
+                <h3 class="text-xl font-bold">Yanıtla</h3>
+                <button onclick="closeCommentModal()" class="w-8 h-8 rounded-full hover:bg-gray-900 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-4 max-h-[60vh] overflow-y-auto" id="comments-list">
+                <!-- Existing comments will be loaded here -->
+            </div>
+
+            <div class="p-4 border-t border-gray-800">
+                <div class="flex gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-user text-gray-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <input type="text" id="comment-username" placeholder="Adınız (İsteğe bağlı)" class="w-full bg-transparent text-white mb-2 outline-none text-sm font-bold placeholder-gray-600">
+                        <textarea id="comment-text" rows="3" placeholder="Yanıtını gönder" class="w-full bg-transparent text-white text-lg outline-none resize-none placeholder-gray-600"></textarea>
+                        <div class="flex justify-end mt-2">
+                            <button onclick="submitComment()" class="px-4 py-2 bg-blue-500 text-white rounded-full font-bold hover:bg-blue-600 transition-colors disabled:opacity-50" id="submit-comment-btn" disabled>
+                                Yanıtla
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prediction Modal -->
+    <div id="prediction-modal" class="fixed inset-0 bg-black/80 hidden z-[60] flex items-center justify-center p-4">
+        <div class="bg-black border border-gray-800 rounded-2xl w-full max-w-lg overflow-hidden relative shadow-2xl shadow-purple-900/20">
+            <button onclick="closePredictionModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-gray-900 flex items-center justify-center transition-colors text-gray-500 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-purple-900/30 flex items-center justify-center text-purple-500">
+                        <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">AI Analizi & Tahmin</h3>
+                </div>
+
+                <div id="prediction-content" class="text-gray-300 leading-relaxed text-[15px] space-y-4 max-h-[60vh] overflow-y-auto">
+                    <!-- Content will be loaded here -->
+                    <div class="flex flex-col items-center justify-center py-8 text-purple-400">
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4"></i>
+                        <p>Analiz ediliyor...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Modal -->
+    <div id="welcome-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
+        <div class="bg-black border border-gray-800 rounded-2xl p-6 sm:p-8 max-w-md w-full relative shadow-2xl shadow-blue-900/10">
+            <button onclick="closeWelcomeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-gray-900 flex items-center justify-center transition-colors text-gray-500 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="flex flex-col items-center text-center">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-6">
+                     <svg viewBox="0 0 24 24" class="w-full h-full fill-white">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </div>
+                
+                <h2 class="text-2xl font-bold mb-4 text-white">Hoş Geldiniz</h2>
+                
+                <div class="text-gray-300 leading-relaxed mb-8 text-[15px] space-y-4">
+                    <p>
+                        <span class="font-bold text-white">@cennet_dunya</span> kullanıcı adlı Enes Halifekan'ın kehanet postları hakkında bilgilenme ve faydalanma amaçlı yapılmış, tamamen gerçek 155 bin post verileri çekilerek hazırlanmıştır.
+                    </p>
+                    <p class="text-gray-400">
+                        Postlara anonim olarak yorum yapabilir ve teorilerde bulunabilirsiniz.
+                    </p>
+                </div>
+                
+                <button onclick="closeWelcomeModal()" class="w-full bg-white text-black font-bold py-3 rounded-full hover:bg-gray-200 transition-colors text-base sm:text-lg">
+                    İncelemeye Başla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Search -->
+    <div class="fixed bottom-0 w-full bg-black border-t border-gray-800 sm:hidden flex items-center p-2 z-50 h-[60px]">
+        <div class="relative w-full">
+             <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input type="text" id="mobile-search-input" placeholder="Mesajlarda ara" class="w-full bg-gray-900 border border-transparent focus:border-blue-500 focus:bg-black rounded-full py-2 pl-12 pr-4 text-white placeholder-gray-500 outline-none transition-colors">
+        </div>
+    </div>
+
+    <script>
+        // Global variables for pagination
+        let page = 1;
+        let isLoading = false;
+        let totalTweets = 0;
+        let currentSearchTerm = '';
+        const BATCH_SIZE = 20;
+        let loadedTweets = new Map(); // Store loaded tweets
+        let scrollPosition = 0; // Store scroll position
+
+        // Prediction Logic (Real-time HUD)
+        function openPredictionModal(tweetId, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            document.getElementById('prediction-modal').classList.remove('hidden');
+            const contentDiv = document.getElementById('prediction-content');
+            
+            // Set up the Professional HUD Interface
+            contentDiv.innerHTML = `
+                <div class="flex flex-col h-[85vh] sm:h-[600px] bg-black rounded-lg overflow-hidden border border-gray-800 font-mono text-xs w-full max-w-4xl mx-auto">
+                    <!-- HUD Header -->
+                    <div class="flex items-center justify-between px-4 py-2 bg-gray-900 border-b border-gray-800 text-gray-400 flex-shrink-0">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            <span class="font-bold tracking-widest text-green-500">SYSTEM_ONLINE</span>
+                        </div>
+                        <div class="flex gap-2 sm:gap-4 text-[10px] sm:text-xs">
+                            <span class="hidden sm:inline">CPU: <span class="text-white">12%</span></span>
+                            <span>NET: <span class="text-green-400 animate-pulse">ACTIVE</span></span>
+                        </div>
+                        <div class="text-gray-500 text-[10px]">v2.1</div>
+                    </div>
+
+                    <!-- HUD Body -->
+                    <div class="flex flex-col sm:flex-row flex-1 overflow-hidden relative">
+                        <!-- Left Panel: Status & Metrics -->
+                        <div class="w-full sm:w-1/3 h-auto sm:h-full border-b sm:border-b-0 sm:border-r border-gray-800 p-4 bg-gray-900/50 flex flex-col gap-4 flex-shrink-0">
+                            <!-- Target Status -->
+                            <div class="border border-green-500/30 bg-green-900/10 p-2 sm:p-3 rounded">
+                                <h6 class="text-green-500 mb-1 sm:mb-2 font-bold uppercase tracking-wider text-[10px] sm:text-xs">Target Status</h6>
+                                <div class="space-y-1 text-[10px] sm:text-xs">
+                                    <div class="flex justify-between"><span>ID:</span> <span class="text-white">${tweetId}</span></div>
+                                    <div class="flex justify-between"><span>Lock:</span> <span class="text-green-400">ACQUIRED</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Progress Bars -->
+                            <div class="space-y-2 sm:space-y-3">
+                                <div>
+                                    <div class="flex justify-between mb-1 text-gray-400 text-[10px] sm:text-xs"><span>Variations Scanned</span> <span id="hud-var-count">0/15</span></div>
+                                    <div class="h-1 bg-gray-800 rounded-full overflow-hidden">
+                                        <div id="hud-var-bar" class="h-full bg-blue-500 w-0 transition-all duration-300"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1 text-gray-400 text-[10px] sm:text-xs"><span>Posts Analyzed</span> <span id="hud-post-count">0</span></div>
+                                    <div class="h-1 bg-gray-800 rounded-full overflow-hidden">
+                                        <div id="hud-post-bar" class="h-full bg-purple-500 w-0 transition-all duration-300"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Current Task -->
+                            <div class="mt-auto border-t border-gray-800 pt-2 sm:pt-3 hidden sm:block">
+                                <span class="text-gray-500 uppercase text-[10px]">Current Task</span>
+                                <div id="hud-current-task" class="text-yellow-400 truncate animate-pulse text-xs">Initializing...</div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Terminal Log -->
+                        <div class="w-full sm:w-2/3 h-full bg-black p-2 sm:p-4 flex flex-col relative overflow-hidden">
+                            <!-- Matrix/Scanline Overlay -->
+                            <div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%]"></div>
+                            
+                            <!-- Mobile Current Task (Visible only on mobile) -->
+                            <div class="sm:hidden mb-2 border-b border-gray-800 pb-2">
+                                <div id="hud-current-task-mobile" class="text-yellow-400 text-[10px] truncate animate-pulse">Initializing...</div>
+                            </div>
+
+                            <h6 class="text-gray-500 mb-2 font-bold uppercase tracking-wider flex items-center gap-2 text-[10px] sm:text-xs">
+                                <i class="fa-solid fa-terminal"></i> Terminal Output
+                            </h6>
+                            <div id="hud-terminal" class="flex-1 overflow-y-auto font-mono text-green-400/80 space-y-1 p-2 border border-gray-800 bg-gray-900/20 rounded custom-scrollbar text-[10px] sm:text-[11px]">
+                                <div>> System initialized.</div>
+                                <div>> Establishing secure connection...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            startDeepDive(tweetId);
+        }
+
+        function closePredictionModal() {
+            document.getElementById('prediction-modal').classList.add('hidden');
+        }
+
+        function startDeepDive(tweetId) {
+            const terminal = document.getElementById('hud-terminal');
+            const statusTask = document.getElementById('hud-current-task');
+            const statusTaskMobile = document.getElementById('hud-current-task-mobile');
+            const varCount = document.getElementById('hud-var-count');
+            const varBar = document.getElementById('hud-var-bar');
+            const postCount = document.getElementById('hud-post-count');
+            const postBar = document.getElementById('hud-post-bar');
+
+            function log(msg, type = 'info') {
+                const div = document.createElement('div');
+                const time = new Date().toLocaleTimeString('tr-TR', {hour12: false});
+                if (type === 'error') div.className = 'text-red-500';
+                else if (type === 'success') div.className = 'text-green-300 font-bold';
+                else if (type === 'highlight') div.className = 'text-cyan-300';
+                else div.className = 'text-green-400/80';
+                
+                div.innerHTML = `<span class="opacity-50">[${time}]</span> ${msg}`;
+                terminal.appendChild(div);
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+            const eventSource = new EventSource(`ai_engine.php?tweet_id=${tweetId}`);
+
+            eventSource.onmessage = function(e) {
+                try {
+                    const data = JSON.parse(e.data);
+                    
+                    if (data.type === 'status') {
+                        if (statusTask) statusTask.innerText = data.message;
+                        if (statusTaskMobile) statusTaskMobile.innerText = data.message;
+                        log(`> ${data.message}`);
+                        if (data.detail) log(data.detail, 'highlight');
+                    }  
+                    else if (data.type === 'scanning') {
+                        // data.detail.query
+                        log(`> Scanning Vector: "${data.detail.query}"`, 'highlight');
+                        
+                        // Update variation progress
+                        const currentVar = (parseInt(varCount.innerText.split('/')[0]) || 0) + 1;
+                        varCount.innerText = `${Math.min(currentVar, 15)}/15`;
+                        varBar.style.width = `${(currentVar/15)*100}%`;
+                    }
+                    else if (data.type === 'progress') {
+                        // data.found, data.comments
+                        postCount.innerText = data.found;
+                        postBar.style.width = `${Math.min((data.found/100)*100, 100)}%`; // Assume max 100 for visual scale
+                    }
+                    else if (data.type === 'log') {
+                        log(data.content, 'highlight');
+                    }
+                    else if (data.type === 'result') {
+                        eventSource.close();
+                        log('> ANALYSIS COMPLETE. RENDERING REPORT...', 'success');
+                        setTimeout(() => {
+                            renderAnalysis(data.analysis, document.getElementById('prediction-content'));
+                        }, 1000);
+                    }
+                    else if (data.type === 'error') {
+                        log(`ERROR: ${data.message}`, 'error');
+                        eventSource.close();
+                    }
+
+                } catch (err) {
+                    // console.error(err);
+                }
+            };
+
+            eventSource.onerror = function(e) {
+                log('Connection interrupted.', 'error');
+                eventSource.close();
+            };
+        }
+
+        function renderProbabilityCard(label, value, color, icon) {
+    // Renk haritaları
+    const colors = {
+        yellow: { text: 'text-yellow-400', bar: 'bg-gradient-to-r from-yellow-600 to-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+        red: { text: 'text-red-400', bar: 'bg-gradient-to-r from-red-600 to-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+        blue: { text: 'text-blue-400', bar: 'bg-gradient-to-r from-blue-600 to-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+        purple: { text: 'text-purple-400', bar: 'bg-gradient-to-r from-purple-600 to-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+        gray: { text: 'text-gray-400', bar: 'bg-gray-400', bg: 'bg-gray-400/10', border: 'border-gray-500/20' }
+    };
+    const c = colors[color] || colors.gray;
+    const percentage = parseInt(value) || 0;
+    
+    return `
+    <div class="bg-black/40 p-3 rounded-xl border ${c.border} relative overflow-hidden group hover:bg-black/60 transition-all duration-300">
+        <div class="flex justify-between items-start mb-2 relative z-10">
+            <span class="text-gray-300 text-xs font-medium flex items-center gap-2">
+                <i class="fa-solid ${icon} text-[10px] opacity-70"></i> ${label}
+            </span>
+            <span class="font-bold ${c.text} text-lg">${value}%</span>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-800/50 h-1.5 rounded-full overflow-hidden relative z-10">
+            <div class="h-full ${c.bar} rounded-full shadow-[0_0_10px_rgba(0,0,0,0.5)] transform origin-left scale-x-0 animate-[growWidth_1s_ease-out_forwards]" style="--target-width: ${percentage}%"></div>
+        </div>
+        
+        <!-- Background Glow -->
+        <div class="absolute -bottom-6 -right-6 w-20 h-20 ${c.bg} rounded-full blur-2xl group-hover:bg-opacity-30 transition-all duration-500"></div>
+    </div>
+    <style>
+    @keyframes growWidth {
+        to { width: var(--target-width); }
+    }
+    </style>
+    `;
+}
+
+function renderAnalysis(data, container) {
+    let html = `
+        <div class="space-y-6 animate-[fadeIn_0.5s_ease-out]">
+            <!-- 1. HERO SECTION: Sonuç, Özet ve Olasılıklar -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-purple-900/40 to-black p-6 rounded-2xl border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.15)] group hover:shadow-[0_0_40px_rgba(168,85,247,0.25)] transition-all duration-500">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+                
+                <!-- Başlık -->
+                <h4 class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-300 font-bold mb-4 flex items-center gap-3 text-xl">
+                    <div class="p-2 bg-purple-500/20 rounded-lg backdrop-blur-sm">
+                        <i class="fa-solid fa-scale-balanced text-purple-400"></i>
+                    </div>
+                    Analiz Sonucu
+                </h4>
+                
+                <!-- Özet -->
+                <p class="text-white text-lg font-medium mb-4 leading-relaxed tracking-wide shadow-black drop-shadow-md">
+                    ${escapeHtml(data.son_karar.ozet)}
+                </p>
+                
+                <!-- Tavsiye/Slogan -->
+                <div class="bg-black/30 backdrop-blur-sm rounded-xl p-4 border-l-4 border-purple-500 relative overflow-hidden mb-6">
+                    <i class="fa-solid fa-quote-left absolute top-2 right-2 text-purple-500/10 text-4xl"></i>
+                    <p class="text-sm text-gray-300 italic relative z-10 pl-2">
+                        "${escapeHtml(data.son_karar.tavsiye)}"
+                    </p>
+                </div>
+
+                <!-- Olasılıklar Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                    ${renderProbabilityCard('Kehanet/Öngörü', data.son_karar.olasiliklar.gercek_kehanet_ongoru, 'yellow', 'fa-bolt')}
+                    ${renderProbabilityCard('FETÖ Talimatı', data.son_karar.olasiliklar.feto_talimati, 'red', 'fa-network-wired')}
+                    ${renderProbabilityCard('Troll/Kaotik', data.son_karar.olasiliklar.bireysel_troll_kaotik, 'blue', 'fa-masks-theater')}
+                    ${renderProbabilityCard('Tesadüf/Bias', data.son_karar.olasiliklar.confirmation_bias, 'gray', 'fa-dice')}
+                </div>
+            </div>
+
+            <!-- 2. INTENT SECTION: Ne Anlatılmak İstenmiş? -->
+            ${data.son_karar.ne_anlatilmak_istenmis ? `
+            <div class="bg-gradient-to-br from-cyan-900/30 to-black p-5 rounded-2xl border border-cyan-500/30 hover:border-cyan-500/50 transition-colors duration-300">
+                <h5 class="text-cyan-400 font-bold text-sm mb-3 flex items-center gap-3">
+                    <div class="p-1.5 bg-cyan-500/20 rounded-lg">
+                        <i class="fa-solid fa-brain text-cyan-400"></i>
+                    </div>
+                    Ne Anlatılmak İstenmiş Olabilir?
+                </h5>
+                <div class="bg-black/40 p-4 rounded-xl border border-cyan-500/10">
+                    <p class="text-gray-200 text-sm leading-7 text-justify font-light">
+                        ${escapeHtml(data.son_karar.ne_anlatilmak_istenmis).replace(/\n/g, '<br>')}
+                    </p>
+                </div>
+            </div>
+            ` : ''}
+
+            <!-- 3. SOCIAL IMPACT: Sosyal Etki & Yankı -->
+            ${data.sosyal_etki_yanki ? `
+            <div class="bg-gradient-to-br from-green-900/30 to-black p-5 rounded-2xl border border-green-500/30 hover:border-green-500/50 transition-colors duration-300">
+                <h5 class="text-green-400 font-bold text-sm mb-4 flex items-center gap-3">
+                    <div class="p-1.5 bg-green-500/20 rounded-lg">
+                        <i class="fa-solid fa-comments text-green-400"></i>
+                    </div>
+                    Toplumsal Yankı
+                </h5>
+                <div class="space-y-3 text-sm">
+                    <div class="bg-black/40 p-3 rounded-lg border border-white/5 relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-green-500/50"></div>
+                        <p class="text-xs text-green-500/70 font-bold uppercase tracking-wider mb-1 pl-2">Ekşi Sözlük Gündemi</p>
+                        <p class="text-gray-300 pl-2">${escapeHtml(data.sosyal_etki_yanki.eksi_sozluk_gundemi)}</p>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded-lg border border-white/5 relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-green-500/30"></div>
+                        <p class="text-xs text-green-500/70 font-bold uppercase tracking-wider mb-1 pl-2">Halkın Tepkisi</p>
+                        <p class="text-gray-300 pl-2">${escapeHtml(data.sosyal_etki_yanki.toplumsal_algı)}</p>
+                    </div>
+                </div>
+            </div>
+            ` : ''}
+
+            <!-- 4. CONNECTION: Günümüz Bağlantısı -->
+            ${data.haber_eslesme.gunumuz_baglantisi ? `
+            <div class="bg-gradient-to-br from-emerald-900/30 to-black p-5 rounded-2xl border border-emerald-500/30 hover:border-emerald-500/50 transition-colors duration-300">
+                <h4 class="text-emerald-400 font-bold mb-3 flex items-center gap-3">
+                    <div class="p-1.5 bg-emerald-500/20 rounded-lg">
+                        <i class="fa-solid fa-bolt text-emerald-400"></i>
+                    </div>
+                    Günümüzle Bağlantısı (2024-2026)
+                </h4>
+                <div class="bg-black/40 p-4 rounded-xl border border-emerald-500/10">
+                    <p class="text-gray-200 text-sm leading-relaxed">
+                        ${escapeHtml(data.haber_eslesme.gunumuz_baglantisi)}
+                    </p>
+                </div>
+            </div>
+            ` : ''}
+
+            <!-- 5. EVIDENCE: GDELT & Arşiv -->
+            <div class="bg-gray-900/40 p-5 rounded-2xl border border-gray-700/50">
+                <h4 class="text-blue-400 font-bold mb-4 flex items-center gap-3">
+                    <div class="p-1.5 bg-blue-500/10 rounded-lg">
+                        <i class="fa-regular fa-newspaper text-blue-400"></i>
+                    </div>
+                    Kanıtlar & Halk Tepkileri
+                </h4>
+                
+                <div class="space-y-4 mb-4">
+                ${data.haber_eslesme.eslesen_haberler && data.haber_eslesme.eslesen_haberler.length > 0 ? 
+                    data.haber_eslesme.eslesen_haberler.map(haber => {
+                        const isEksi = haber.baslik.includes('Ekşi Sözlük') || (haber.link && haber.link.includes('eksisozluk'));
+                        const isTwitter = haber.baslik.includes('Twitter') || (haber.link && (haber.link.includes('twitter') || haber.link.includes('x.com')));
+                        const isCurrent = haber.baslik.includes('Güncel') || (haber.source && haber.source.includes('Güncel'));
+                        
+                        let borderClass = 'border-gray-700/50 hover:border-gray-600';
+                        let bgClass = 'bg-black/40 hover:bg-black/60';
+                        let icon = '<i class="fa-regular fa-newspaper text-gray-400"></i>';
+                        let titleColor = 'text-blue-400 group-hover:text-blue-300';
+                        
+                        if (isEksi) {
+                            borderClass = 'border-green-800/50 hover:border-green-700';
+                            bgClass = 'bg-green-900/10 hover:bg-green-900/20';
+                            icon = '<i class="fa-brands fa-sourcetree text-green-500"></i>';
+                            titleColor = 'text-green-400 group-hover:text-green-300';
+                        } else if (isTwitter) {
+                            borderClass = 'border-blue-800/50 hover:border-blue-700';
+                            bgClass = 'bg-blue-900/10 hover:bg-blue-900/20';
+                            icon = '<i class="fa-brands fa-x-twitter text-blue-400"></i>';
+                            titleColor = 'text-blue-400 group-hover:text-blue-300';
+                        } else if (isCurrent) {
+                            borderClass = 'border-emerald-700/50 hover:border-emerald-600';
+                            bgClass = 'bg-emerald-900/10 hover:bg-emerald-900/20';
+                            icon = '<i class="fa-solid fa-clock text-emerald-500"></i>';
+                            titleColor = 'text-emerald-400 group-hover:text-emerald-300';
+                        }
+
+                        return `
+                        <div class="${bgClass} p-3 rounded-xl border ${borderClass} transition-all duration-300 group">
+                            <div class="flex items-start gap-3 mb-2">
+                                <div class="mt-1 flex-shrink-0 p-1 bg-black/50 rounded">${icon}</div>
+                                <a href="${escapeHtml(haber.link)}" target="_blank" class="${titleColor} font-bold text-sm block flex-1 transition-colors">
+                                    ${escapeHtml(haber.baslik)}
+                                    <i class="fa-solid fa-external-link-alt text-xs opacity-0 group-hover:opacity-100 ml-2 transition-opacity"></i>
+                                </a>
+                            </div>
+                            <p class="text-gray-400 text-xs italic mb-2 pl-10 border-l-2 border-white/5 py-1">"${escapeHtml(haber.kesit_snippet)}"</p>
+                            <div class="flex justify-between items-center text-xs text-gray-500 pl-10">
+                                <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i> ${escapeHtml(haber.tarih)}</span>
+                                <div class="flex gap-1 flex-wrap justify-end">
+                                    ${Array.isArray(haber.eslesen_parcalar) ? haber.eslesen_parcalar.map(p => `<span class="bg-gray-800/80 px-1.5 py-0.5 rounded text-gray-300 border border-gray-700/50">${escapeHtml(p)}</span>`).join('') : ''}
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('') : '<div class="p-4 text-center border border-gray-800 rounded-xl bg-black/20 text-gray-500 text-sm">Doğrudan eşleşen kanıt bulunamadı.</div>'
+                }
+                </div>
+
+                <div class="space-y-3 text-sm border-t border-gray-800/50 pt-4 mt-2">
+                    <div class="bg-black/20 p-3 rounded-lg">
+                        <span class="text-gray-500 block text-xs uppercase tracking-wider mb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-filter"></i> Geniş Tarama (2010-2026)
+                        </span>
+                        <p class="text-gray-300 text-sm">${escapeHtml(data.haber_eslesme.genis_tarama_olaylar)}</p>
+                    </div>
+                     <div class="flex items-center gap-2 text-xs">
+                        <span class="text-gray-500 uppercase tracking-wider">Kaynaklar:</span>
+                        <p class="text-blue-400/80 italic truncate">${Array.isArray(data.haber_eslesme.kaynaklar) ? escapeHtml(data.haber_eslesme.kaynaklar.join(', ')) : escapeHtml(data.haber_eslesme.kaynaklar)}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Close prediction modal when clicking outside
+        document.getElementById('prediction-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePredictionModal();
+            }
+        });
+
+        async function loadData() {
+            try {
+                // Profile Setup (Static)
+                const profile = {
+                    name: "Enes Halifekan",
+                    handle: "cennet_dunya",
+                    bio: "Kurt Teşkilatı . Komutan . Kongo . Mısır . İran . Hindistan . Çin . 1980",
+                    location: "İstanbul, Türkiye",
+                    website: "cennetdunya.com",
+                    join_date: "Şubat 2016 tarihinde katıldı",
+                    following_count: 0,
+                    followers_count: "77 B", 
+                    avatar_image: "profile.png",
+                    banner_image: "banner.png"
+                };
+                renderProfile(profile);
+
+                // Initial render
+                document.getElementById('feed').innerHTML = '';
+
+                // Check for tweet_id in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const tweetId = urlParams.get('tweet_id');
+                
+                if (tweetId) {
+                    await loadSpecificTweet(tweetId);
+                } else {
+                    await loadTweets(1);
+                }
+
+                // Setup Infinite Scroll
+                window.addEventListener('scroll', handleScroll);
+
+                // Setup Search
+                const searchInputs = [document.getElementById('search-input'), document.getElementById('mobile-search-input')];
+                let searchTimeout;
+
+                searchInputs.forEach(input => {
+                    if (!input) return;
+                    input.addEventListener('input', (e) => {
+                        // Synchronize inputs
+                        searchInputs.forEach(otherInput => {
+                            if (otherInput && otherInput !== e.target) {
+                                otherInput.value = e.target.value;
+                            }
+                        });
+
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            const term = e.target.value.trim();
+                            if (term !== currentSearchTerm) {
+                                currentSearchTerm = term;
+                                page = 1;
+                                loadedTweets.clear();
+                                document.getElementById('feed').innerHTML = '';
+                                loadTweets(1);
+                            }
+                        }, 500); // 500ms debounce
+                    });
+                });
+                
+                // Detail Comment Input Listener
+                document.getElementById('detail-comment-text').addEventListener('input', function() {
+                    const btn = document.getElementById('detail-submit-comment-btn');
+                    btn.disabled = !this.value.trim();
+                });
+
+            } catch (error) {
+                console.error('Hata:', error);
+                document.getElementById('feed').innerHTML = '<div class="text-center p-8 text-gray-500">Veri yüklenemedi.<br>Lütfen sayfayı yenileyin.</div>';
+            }
+        }
+
+        async function loadTweets(pageNum) {
+            if (isLoading) return;
+            isLoading = true;
+
+            try {
+                let url = `api.php?page=${pageNum}&limit=${BATCH_SIZE}`;
+                if (currentSearchTerm) {
+                    url += `&search=${encodeURIComponent(currentSearchTerm)}`;
+                }
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                
+                if (data.error) throw new Error(data.error);
+                
+                totalTweets = data.total;
+                document.getElementById('tweet-count').textContent = formatNumber(totalTweets) + ' gönderi';
+                
+                // Show no results message
+                if (pageNum === 1 && data.tweets.length === 0) {
+                     document.getElementById('feed').innerHTML = `
+                        <div class="flex flex-col items-center justify-center p-8 text-gray-500">
+                            <i class="fa-solid fa-magnifying-glass text-4xl mb-4"></i>
+                            <p class="text-xl font-bold mb-2">Sonuç bulunamadı</p>
+                            <p>Aradığınız kriterlere uygun gönderi yok.</p>
+                        </div>
+                     `;
+                }
+
+                if (data.tweets.length > 0) {
+                    data.tweets.forEach(tweet => loadedTweets.set(tweet.id.toString(), tweet));
+                    renderTweets(data.tweets);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function handleScroll() {
+            // Disable infinite scroll if detail view is active
+            if (!document.getElementById('detail-view').classList.contains('hidden')) return;
+
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !isLoading) {
+                if ((page * BATCH_SIZE) < totalTweets) {
+                    page++;
+                    loadTweets(page);
+                }
+            }
+        }
+        
+        // Tweet Detail Logic
+        function openTweetDetail(tweetId) {
+            const tweet = loadedTweets.get(tweetId.toString());
+            if (!tweet) return;
+            
+            // Save scroll position
+            scrollPosition = window.scrollY;
+            
+            // Switch views
+            document.getElementById('feed-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+            
+            // Render Tweet Detail
+            const detailContent = document.getElementById('detail-tweet-content');
+            detailContent.innerHTML = `
+                <article class="p-4">
+                    <div class="flex gap-3">
+                        <img src="${tweet.avatar}" class="w-10 h-10 rounded-full flex-shrink-0 bg-transparent object-cover">
+                        <div class="flex-1">
+                            <div class="flex flex-col mb-1">
+                                <span class="font-bold text-white text-[15px]">${tweet.name}</span>
+                                <span class="text-gray-500 text-sm">@${tweet.handle}</span>
+                            </div>
+                        </div>
+                        <button class="text-gray-500 hover:bg-blue-500/10 hover:text-blue-500 p-2 rounded-full transition-colors">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p class="text-[17px] leading-normal text-white whitespace-pre-wrap">${highlightText(tweet.text, currentSearchTerm)}</p>
+                    </div>
+                    
+                    ${tweet.image ? `
+                    <div class="mt-4">
+                        <img src="${tweet.image}" class="rounded-2xl w-full border border-gray-800 object-cover max-h-[600px]" alt="Gönderi içeriği">
+                    </div>
+                    ` : ''}
+                    
+                    <div class="py-4 border-b border-gray-800">
+                        <div class="flex items-center gap-1 text-gray-500 text-[15px] hover:underline cursor-pointer">
+                            <span>${new Date(tweet.time).toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'})}</span>
+                            <span>·</span>
+                            <span>${new Date(tweet.time).toLocaleDateString('tr-TR', {day: 'numeric', month: 'long', year: 'numeric'})}</span>
+                            <span>·</span>
+                            <span class="text-white font-bold">${formatNumber(tweet.stats.views)}</span>
+                            <span>Görüntülenme</span>
+                        </div>
+                    </div>
+                    
+                    <div class="py-4 border-b border-gray-800 flex justify-around sm:justify-between px-4 sm:px-12">
+                         <button class="group flex items-center gap-2 text-gray-500 hover:text-blue-500 transition-colors">
+                             <div class="p-2 rounded-full group-hover:bg-blue-500/10">
+                                 <i class="fa-regular fa-comment text-[20px]"></i>
+                             </div>
+                             <span>${formatNumber(tweet.stats.comments)}</span>
+                         </button>
+                         <button class="group flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors">
+                             <div class="p-2 rounded-full group-hover:bg-green-500/10">
+                                 <i class="fa-solid fa-retweet text-[20px]"></i>
+                             </div>
+                             <span>${formatNumber(tweet.stats.retweets)}</span>
+                         </button>
+                         <button class="group flex items-center gap-2 text-gray-500 hover:text-pink-500 transition-colors">
+                             <div class="p-2 rounded-full group-hover:bg-pink-500/10">
+                                 <i class="fa-regular fa-heart text-[20px]"></i>
+                             </div>
+                             <span>${formatNumber(tweet.stats.likes)}</span>
+                         </button>
+                         <button onclick="openPredictionModal('${tweet.id}', event)" class="group flex items-center gap-2 text-gray-500 hover:text-purple-500 transition-colors" title="AI Tahmini">
+                             <div class="p-2 rounded-full group-hover:bg-purple-500/10">
+                                 <i class="fa-solid fa-wand-magic-sparkles text-[20px]"></i>
+                             </div>
+                             <span class="hidden sm:inline">Tahmin</span>
+                         </button>
+                         <button class="group flex items-center gap-2 text-gray-500 hover:text-blue-500 transition-colors">
+                             <div class="p-2 rounded-full group-hover:bg-blue-500/10">
+                                 <i class="fa-regular fa-bookmark text-[20px]"></i>
+                             </div>
+                         </button>
+                         <button onclick="shareTweet('${tweet.id}')" class="group flex items-center gap-2 text-gray-500 hover:text-blue-500 transition-colors">
+                             <div class="p-2 rounded-full group-hover:bg-blue-500/10">
+                                 <i class="fa-solid fa-arrow-up-from-bracket text-[20px]"></i>
+                             </div>
+                         </button>
+                    </div>
+                </article>
+            `;
+            
+            // Reset comment form
+            document.getElementById('detail-comment-username').value = '';
+            document.getElementById('detail-comment-text').value = '';
+            document.getElementById('detail-submit-comment-btn').disabled = true;
+            
+            // Load Comments
+            currentTweetId = tweetId;
+            fetchDetailComments(tweetId);
+        }
+        
+        function closeTweetDetail() {
+            document.getElementById('detail-view').classList.add('hidden');
+            document.getElementById('feed-view').classList.remove('hidden');
+            window.scrollTo(0, scrollPosition);
+            currentTweetId = null;
+        }
+        
+        async function fetchDetailComments(tweetId) {
+             const list = document.getElementById('detail-comments-list');
+             list.innerHTML = '<div class="text-center text-gray-500 py-4">Yorumlar yükleniyor...</div>';
+             
+             try {
+                const response = await fetch(`api.php?action=get_comments&tweet_id=${tweetId}`);
+                const data = await response.json();
+                
+                if (!data.comments || data.comments.length === 0) {
+                    list.innerHTML = '<div class="text-center text-gray-500 py-8 border-b border-gray-800">Henüz yorum yok. İlk yorumu sen yap!</div>';
+                    return;
+                }
+
+                list.innerHTML = data.comments.map(comment => `
+                    <div class="p-4 border-b border-gray-800 hover:bg-gray-900/50 transition-colors">
+                        <div class="flex gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-user text-gray-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-bold text-white">${comment.username}</span>
+                                    <span class="text-gray-500 text-sm">@${comment.username.toLowerCase().replace(/\s/g, '')}</span>
+                                    <span class="text-gray-500 text-sm">·</span>
+                                    <span class="text-gray-500 text-sm">${formatDate(comment.created_at)}</span>
+                                </div>
+                                <div class="text-gray-500 text-sm mb-2">
+                                    <span class="text-blue-500">@cennet_dunya</span> adlı kullanıcıya yanıt olarak
+                                </div>
+                                <p class="text-white text-[15px]">${comment.comment_text}</p>
+                                
+                                <div class="flex items-center justify-between mt-3 max-w-md text-gray-500">
+                                    <button class="hover:text-blue-500 transition-colors"><i class="fa-regular fa-comment"></i></button>
+                                    <button class="hover:text-green-500 transition-colors"><i class="fa-solid fa-retweet"></i></button>
+                                    <button class="hover:text-pink-500 transition-colors"><i class="fa-regular fa-heart"></i></button>
+                                    <button class="hover:text-blue-500 transition-colors"><i class="fa-solid fa-chart-simple"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+                list.innerHTML = '<div class="text-center text-red-500 py-4">Yorumlar yüklenemedi.</div>';
+            }
+        }
+        
+        async function submitDetailComment() {
+            if (!currentTweetId) return;
+            
+            const username = document.getElementById('detail-comment-username').value.trim() || 'Anonim';
+            const text = document.getElementById('detail-comment-text').value.trim();
+            
+            if (!text) return;
+
+            const btn = document.getElementById('detail-submit-comment-btn');
+            btn.disabled = true;
+            btn.textContent = 'Gönderiliyor...';
+            
+            const formData = new FormData();
+            formData.append('action', 'post_comment');
+            formData.append('tweet_id', currentTweetId);
+            formData.append('username', username);
+            formData.append('comment_text', text);
+            
+            try {
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('detail-comment-text').value = '';
+                    fetchDetailComments(currentTweetId); // Reload comments
+                    
+                    // Increment comment count in the view (optional but nice)
+                    const tweet = loadedTweets.get(currentTweetId.toString());
+                    if (tweet) {
+                        tweet.stats.comments++;
+                        // Also update feed if visible? No, feed is hidden. 
+                        // But when we go back, we might want to update the feed item.
+                        // Since we render from data array, we might need to update the DOM element directly or re-render.
+                        // For now, let's just update the detail view stats button text if we can find it easily.
+                    }
+                } else {
+                    alert('Yorum gönderilemedi: ' + (data.error || 'Bilinmeyen hata'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Bir hata oluştu.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Yanıtla';
+            }
+        }
+
+        function renderProfile(profile) {
+            document.getElementById('header-name').textContent = profile.name;
+            document.getElementById('profile-name').textContent = profile.name;
+            document.getElementById('profile-handle').textContent = '@' + profile.handle;
+            document.getElementById('profile-bio').textContent = profile.bio;
+            document.getElementById('profile-location').textContent = profile.location;
+            document.getElementById('profile-website').textContent = profile.website;
+            document.getElementById('profile-join-date').textContent = profile.join_date;
+            document.getElementById('following-count').textContent = formatNumber(profile.following_count);
+            document.getElementById('followers-count').textContent = formatNumber(profile.followers_count);
+            
+            document.getElementById('profile-avatar').src = profile.avatar_image;
+            document.getElementById('banner-image').src = profile.banner_image;
+        }
+
+        function renderTweets(tweets) {
+            const feed = document.getElementById('feed');
+            
+            let html = '';
+            tweets.forEach(tweet => {
+                html += `
+                    <article class="border-b border-gray-800 p-4 hover:bg-gray-900/50 transition-colors cursor-pointer">
+                        <div class="flex gap-3">
+                            <img src="${tweet.avatar}" class="w-10 h-10 rounded-full flex-shrink-0 bg-transparent object-cover">
+                            
+                            <div class="flex-1">
+                                <div class="flex flex-wrap items-center gap-1 text-gray-500 text-sm mb-1">
+                                    <span class="font-bold text-white text-[15px]">${tweet.name}</span>
+                                    <span>@${tweet.handle}</span>
+                                    <span>·</span>
+                                    <span class="text-gray-500 text-sm" title="${new Date(tweet.time).toLocaleString('tr-TR')}">${formatDate(tweet.time)}</span>
+                                </div>
+                                
+                                <p class="mb-3 whitespace-pre-wrap text-[15px] leading-normal text-white">${highlightText(tweet.text, currentSearchTerm)}</p>
+                                
+                                ${tweet.image ? `
+                                <img src="${tweet.image}" class="rounded-2xl w-full mb-3 border border-gray-800 object-cover max-h-[500px]" alt="Gönderi içeriği">
+                                ` : ''}
+                                
+                                <div class="grid grid-cols-4 w-full mt-3 sm:flex sm:justify-between">
+                                    <button onclick="openTweetDetail('${tweet.id}')" class="flex items-center gap-1 group justify-start">
+                                        <div class="p-2 rounded-full text-gray-500 group-hover:bg-blue-500/10 group-hover:text-blue-500 transition-colors">
+                                            <i class="fa-regular fa-comment text-[18px]"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 group-hover:text-blue-500 transition-colors whitespace-nowrap">${formatNumber(tweet.stats.comments)}</span>
+                                    </button>
+                                    
+                                    <button class="flex items-center gap-1 group justify-start sm:justify-center">
+                                        <div class="p-2 rounded-full text-gray-500 group-hover:bg-green-500/10 group-hover:text-green-500 transition-colors">
+                                            <i class="fa-solid fa-retweet text-[18px]"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 group-hover:text-green-500 transition-colors whitespace-nowrap">${formatNumber(tweet.stats.retweets)}</span>
+                                    </button>
+                                    
+                                    <button class="flex items-center gap-1 group justify-start sm:justify-center">
+                                        <div class="p-2 rounded-full text-gray-500 group-hover:bg-pink-500/10 group-hover:text-pink-500 transition-colors">
+                                            <i class="fa-regular fa-heart text-[18px]"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 group-hover:text-pink-500 transition-colors whitespace-nowrap">${formatNumber(tweet.stats.likes)}</span>
+                                    </button>
+
+                                    <button onclick="openPredictionModal('${tweet.id}', event)" class="flex items-center gap-1 group justify-start sm:justify-center" title="AI Tahmini">
+                                        <div class="p-2 rounded-full text-gray-500 group-hover:bg-purple-500/10 group-hover:text-purple-500 transition-colors">
+                                            <i class="fa-solid fa-wand-magic-sparkles text-[18px]"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 group-hover:text-purple-500 transition-colors whitespace-nowrap hidden sm:inline">Tahmin</span>
+                                    </button>
+                                    
+                                    <button onclick="shareTweet('${tweet.id}')" class="flex items-center gap-1 group justify-start sm:justify-end">
+                                        <div class="p-2 rounded-full text-gray-500 group-hover:bg-blue-500/10 group-hover:text-blue-500 transition-colors">
+                                            <i class="fa-solid fa-arrow-up-from-bracket text-[18px]"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 group-hover:text-blue-500 transition-colors whitespace-nowrap">${formatNumber(tweet.stats.views)}</span>
+                                    </button>
+                                    
+                                    <div class="hidden sm:flex items-center gap-2 text-gray-500">
+                                        <div class="p-2 rounded-full hover:bg-blue-500/10 transition-colors">
+                                            <i class="fa-regular fa-bookmark text-[18px]"></i>
+                                        </div>
+                                        <div onclick="shareTweet('${tweet.id}')" class="p-2 rounded-full hover:bg-blue-500/10 transition-colors cursor-pointer">
+                                            <i class="fa-solid fa-arrow-up-from-bracket text-[18px]"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            });
+            
+            feed.insertAdjacentHTML('beforeend', html);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function getTurkishNormalized(text) {
+            return text
+                .replace(/Ğ/g, 'g').replace(/Ü/g, 'u').replace(/Ş/g, 's').replace(/I/g, 'i').replace(/İ/g, 'i').replace(/Ö/g, 'o').replace(/Ç/g, 'c')
+                .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+                .replace(/â/g, 'a').replace(/î/g, 'i').replace(/û/g, 'u')
+                .replace(/Â/g, 'a').replace(/Î/g, 'i').replace(/Û/g, 'u');
+        }
+
+        function highlightText(text, searchTerm) {
+            if (!text) return '';
+            if (!searchTerm) return escapeHtml(text);
+            
+            // Normalize both for comparison (Turkish char support)
+            // This ensures "ısparta" matches "ISPARTA" and "isparta"
+            const normalizedText = getTurkishNormalized(text).toLowerCase();
+            const normalizedSearch = getTurkishNormalized(searchTerm).toLowerCase();
+            
+            let result = '';
+            let lastIndex = 0;
+            let pos = 0;
+            
+            while (true) {
+                const index = normalizedText.indexOf(normalizedSearch, pos);
+                if (index === -1) break;
+                
+                // Append text before match
+                result += escapeHtml(text.substring(lastIndex, index));
+                
+                // Append highlighted match
+                // Since normalization is 1-to-1 char mapping, indices are preserved
+                result += `<span class="bg-yellow-500 text-black font-bold rounded px-0.5">${escapeHtml(text.substring(index, index + normalizedSearch.length))}</span>`;
+                
+                lastIndex = index + normalizedSearch.length;
+                pos = lastIndex;
+            }
+            
+            result += escapeHtml(text.substring(lastIndex));
+            return result;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString.replace(' ', 'T'));
+            
+            const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            const dayName = days[date.getDay()];
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            // Format: 3 Şubat 2026 Salı · 14:30
+            return `${day} ${month} ${year} ${dayName} · ${hours}:${minutes}`;
+        }
+
+        function formatNumber(num) {
+            if (typeof num === 'string') return num;
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'B';
+            return num;
+        }
+
+        // Comment Logic
+        let currentTweetId = null;
+
+        function openCommentModal(tweetId) {
+            currentTweetId = tweetId;
+            document.getElementById('comment-modal').classList.remove('hidden');
+            document.getElementById('comments-list').innerHTML = '<div class="text-center text-gray-500 py-4">Yorumlar yükleniyor...</div>';
+            document.getElementById('comment-username').value = '';
+            document.getElementById('comment-text').value = '';
+            document.getElementById('submit-comment-btn').disabled = true;
+            
+            fetchComments(tweetId);
+        }
+
+        function closeCommentModal() {
+            document.getElementById('comment-modal').classList.add('hidden');
+            currentTweetId = null;
+        }
+
+        function closeWelcomeModal() {
+            document.getElementById('welcome-modal').classList.add('hidden');
+        }
+
+        async function fetchComments(tweetId) {
+            try {
+                const response = await fetch(`api.php?action=get_comments&tweet_id=${tweetId}`);
+                const data = await response.json();
+                
+                const list = document.getElementById('comments-list');
+                if (!data.comments || data.comments.length === 0) {
+                    list.innerHTML = '<div class="text-center text-gray-500 py-4">Henüz yorum yok. İlk yorumu sen yap!</div>';
+                    return;
+                }
+
+                list.innerHTML = data.comments.map(comment => `
+                    <div class="flex gap-3 mb-4 border-b border-gray-800 pb-4 last:border-0 last:pb-0">
+                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-user text-gray-500"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-bold">${comment.username}</span>
+                                <span class="text-gray-500 text-sm">· ${formatDate(comment.created_at)}</span>
+                            </div>
+                            <p class="text-white">${comment.comment_text}</p>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+                document.getElementById('comments-list').innerHTML = '<div class="text-center text-red-500">Yorumlar yüklenemedi.</div>';
+            }
+        }
+
+        document.getElementById('comment-text').addEventListener('input', function() {
+            const btn = document.getElementById('submit-comment-btn');
+            btn.disabled = !this.value.trim();
+        });
+
+        async function submitComment() {
+            if (!currentTweetId) return;
+            
+            const username = document.getElementById('comment-username').value.trim() || 'Anonim';
+            const text = document.getElementById('comment-text').value.trim();
+            
+            if (!text) return;
+
+            const btn = document.getElementById('submit-comment-btn');
+            btn.disabled = true;
+            btn.textContent = 'Gönderiliyor...';
+
+            try {
+                const formData = new FormData();
+                formData.append('action', 'post_comment');
+                formData.append('tweet_id', currentTweetId);
+                formData.append('username', username);
+                formData.append('comment_text', text);
+
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Clear input
+                    document.getElementById('comment-text').value = '';
+                    
+                    // Refresh comments
+                    fetchComments(currentTweetId);
+                    
+                    // Update comment count in feed (optional, hard to do without refresh)
+                    // We could find the button and increment the number, but refreshing feed is easier or just ignoring it for now.
+                    
+                } else {
+                    alert('Yorum gönderilemedi: ' + (result.error || 'Bilinmeyen hata'));
+                }
+            } catch (error) {
+                console.error('Error posting comment:', error);
+                alert('Bir hata oluştu.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Yanıtla';
+            }
+        }
+
+        async function loadSpecificTweet(tweetId) {
+             try {
+                const response = await fetch(`api.php?action=get_tweet&tweet_id=${tweetId}`);
+                const data = await response.json();
+                
+                if (data.tweet) {
+                    loadedTweets.set(data.tweet.id, data.tweet);
+                    
+                    // Render Feed in background so back button works nicely
+                    loadTweets(1);
+                    
+                    // Open detail immediately
+                    openTweetDetail(data.tweet.id);
+                } else {
+                    // Tweet not found, just load feed
+                    loadTweets(1);
+                    alert('Gönderi bulunamadı.');
+                }
+            } catch (error) {
+                console.error('Error loading specific tweet:', error);
+                loadTweets(1);
+            }
+        }
+
+        function shareTweet(tweetId) {
+            const url = `${window.location.origin}${window.location.pathname}?tweet_id=${tweetId}`;
+            
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('Link kopyalandı');
+            }).catch(err => {
+                console.error('Kopyalama hatası:', err);
+                prompt('Link:', url);
+            });
+        }
+
+        function showToast(message) {
+            let toast = document.getElementById('toast-notification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg z-[100] transition-opacity duration-300 opacity-0 pointer-events-none';
+                document.body.appendChild(toast);
+            }
+            
+            toast.textContent = message;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('comment-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCommentModal();
+            }
+        });
+
+        // Start
+        window.onload = loadData;
+    </script>
+</body>
+</html>
